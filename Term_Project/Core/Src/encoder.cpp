@@ -1,21 +1,22 @@
-#include "encoder_class.h"
+#include "encoder.h"
 
-Encoder::Encoder(int pinA, int pinB) {}
+Encoder::Encoder(TIM_HandleTypeDef* htim, uint32_t cpr) : htim_(htim), cpr_(cpr) {}
 
 void Encoder::enable(){
+	HAL_TIM_Encoder_Start(htim_, TIM_CHANNEL_ALL);
 
 }
 
-void Encoder::disable(){
+float Encoder::getAngle() const{
+	return getCount() * 360.0f / cpr_;
+
 
 }
 
-void Encoder::update(){
-
+void Encoder::setAngle(float degrees) {
+	__HAL_TIM_SET_COUNTER(htim_, (uint32_t)(int32_t)(cpr_* degrees/360.0f));
 }
 
-
-
-void Encoder::getPosition() const {return position_;}
-void Encoder::setPosition(float pos) {position_ = pos;}
-void Encoder::reset() {position_ = 0}
+int32_t Encoder::getCount() const{
+	return (int32_t)__HAL_TIM_GET_COUNTER(htim_);
+}

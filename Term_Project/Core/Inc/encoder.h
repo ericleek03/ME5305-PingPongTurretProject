@@ -1,20 +1,20 @@
+#ifndef INC_ENCODER_H_
+#define INC_ENCODER_H_
 
+#include "stm32f4xx_hal.h"
 class Encoder {
     public:
-        Encoder(int pinA, int pin8);
-
+        Encoder(TIM_HandleTypeDef* htim, uint32_t cpr);
         void enable();
-        void disable();
-        void update();
 
-        void getPosition() const;
-        void setPosition(float pos);
-        void reset();
+        float getAngle() const;
+        void setAngle(float degrees);
+        int32_t getCount() const;
 
     private:
-        int pinA_;
-        int pinB_;
-        float position_;
-        int state_;
+      TIM_HandleTypeDef* htim_;
+      uint32_t cpr_;
+      float angle_;
 
 };
+#endif
