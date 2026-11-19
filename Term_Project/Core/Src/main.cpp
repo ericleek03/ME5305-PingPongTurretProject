@@ -81,6 +81,14 @@ static void MX_SPI2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+yawmotor yaw(htim4, YAW_FWD_CHANNEL, YAW_REV_CHANNEL);
+BLDCMotor Motor1(htim3, BLDC_CHANNEL_1, 1000, 2000);
+BLDCMotor Motor2(htim3, BLDC_CHANNEL_2, 1000,2000);
+BLDCMotor Motor3(htim3, BLDC_CHANNEL_3, 1000, 2000);
+Servo servo(htim1, SERVO_CHANNEL);
+Encoder encoder(htim2, 1000); // for now
+
+
 
 /* USER CODE END 0 */
 
