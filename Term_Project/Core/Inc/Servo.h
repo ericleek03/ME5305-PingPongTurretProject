@@ -16,9 +16,11 @@ public:
 	void start();
 	void write(uint16_t angle);
 
-	//  we want the system to get a get an angle and produce a pulse width at 0 and 2000 us at 180 at 50 hz
+	// Angle in degrees (0-180) maps linearly to 1000-2000 us at 50 Hz.
+	// SG90 endpoints are provisional until checked on the ball gate.
 
 	uint16_t getAngle() const;
+	uint32_t pulseWidth() const { return pulseUs_; }
 
 private:
 	TIM_HandleTypeDef* htim_;

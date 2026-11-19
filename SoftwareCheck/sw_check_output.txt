@@ -1,0 +1,31 @@
+-- Encoder (TIM2, 32-bit, cpr = 4000 example) --
+1000 counts -> deg                             expected     90.000  actual     90.000  PASS
+4000 counts -> deg                             expected    360.000  actual    360.000  PASS
+-500 counts (underflow) -> deg                 expected    -45.000  actual    -45.000  PASS
+setAngle(45) -> counter                        expected    500.000  actual    500.000  PASS
+setAngle(-45) -> counter                       expected   -500.000  actual   -500.000  PASS
+cpr = 0 guard -> deg                           expected      0.000  actual      0.000  PASS
+-- Servo (TIM1 CH1, 1 us tick) --
+start() -> CCR1 (gate closed)                  expected   1000.000  actual   1000.000  PASS
+write(90) -> CCR1 us                           expected   1500.000  actual   1500.000  PASS
+write(180) -> CCR1 us                          expected   2000.000  actual   2000.000  PASS
+write(250) clamps -> CCR1 us                   expected   2000.000  actual   2000.000  PASS
+-- BLDC/ESC (TIM3 CH1, 1 us tick) --
+start() -> CCR1 us (min throttle)              expected   1000.000  actual   1000.000  PASS
+throttle 50% before armed -> us                expected   1000.000  actual   1000.000  PASS
+throttle 50% after 2 s arm -> us               expected   1500.000  actual   1500.000  PASS
+throttle 150% clamps -> us                     expected   2000.000  actual   2000.000  PASS
+stop() -> us                                   expected   1000.000  actual   1000.000  PASS
+-- Yaw motor (TIM4 CH3/CH4, ARR = 4799 -> 20 kHz) --
++50% -> IN1 CCR3                               expected   2400.000  actual   2400.000  PASS
++50% -> IN2 CCR4                               expected      0.000  actual      0.000  PASS
+-25% -> IN1 CCR3                               expected      0.000  actual      0.000  PASS
+-25% -> IN2 CCR4                               expected   1200.000  actual   1200.000  PASS
++127% clamps -> IN1 CCR3                       expected   4800.000  actual   4800.000  PASS
+disable -> IN1 CCR3                            expected      0.000  actual      0.000  PASS
+disable -> PWM off                             expected      0.000  actual      0.000  PASS
+-- Limit switch (active low) --
+pin high -> pressed                            expected      0.000  actual      0.000  PASS
+pin low -> pressed                             expected      1.000  actual      1.000  PASS
+
+24/24 checks passed

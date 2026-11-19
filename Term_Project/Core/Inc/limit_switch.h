@@ -1,29 +1,23 @@
+#ifndef INC_LIMIT_SWITCH_H_
+#define INC_LIMIT_SWITCH_H_
+
+#include "stm32f4xx_hal.h"
+
+// Active-low limit switch (Rev 1F: LIM_A = PA2, LIM_B = PA3, 10k pull-up + 1 ms RC).
+// GPIO mode/pull is set by CubeMX in MX_GPIO_Init(); this class only reads it.
 class LimitSwitch{
 public:
-	LimitSwitch(GPIO_TypeDef *port, uint16_t pin, uint8_t activeMode = 0, uint8_t pudMode = 0, bool interruptMode = false);
+	LimitSwitch(GPIO_TypeDef *port, uint16_t pin, bool activeLow = true);
 
-
-	bool init(void);
-
-	void clean(void);
-
-	void read(void);
-
-	bool get(void) {return _state;};
-
-	void EXTI_Callback(void);
-
+	void read(void);                          // poll the pin and update the state
+	bool get(void) const {return _state;}     // true = switch pressed
+	void EXTI_Callback(void);                 // call from HAL_GPIO_EXTI_Callback if EXTI is used
 
 private:
-	bool _initState;
+	GPIO_TypeDef *_port;
+	uint16_t _pin;
+	bool _activeLow;
 	volatile bool _state;
-
-	GPIO_TypeDef *_GPIO_PORT;
-
-	uint16_t _GPIO_PIN;
-	uint8_t _ACTIVE_MODE;
-
-	bool _interruptMode;
-
-	bool _RCC_GPIO_CLK_ENABLE(GPIO_TypeDef *GPIO_PORT);
 };
+
+#endif /* INC_LIMIT_SWITCH_H_ */

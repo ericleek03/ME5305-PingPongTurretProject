@@ -20,13 +20,22 @@ public:
 	void setPulseWidth(uint16_t pulseUs);
 	void stop();
 
+	// Non-blocking arm check: true once the ESC has seen min pulse for ARM_TIME_MS.
+	bool isArmed() const;
+	uint16_t pulseWidth() const { return _pulseUs; }
+
+	static const uint32_t ARM_TIME_MS = 2000;  // provisional, BLHeli_S arming wait
+
 
 private:
 	TIM_HandleTypeDef* _htim;
 	uint32_t _channel;
 
 	uint16_t _minPulse;
-	uin16_t _maxPulse;
+	uint16_t _maxPulse;
+	uint16_t _pulseUs;
+	uint32_t _armStartMs;
+	bool _armStarted;
 
 };
 
