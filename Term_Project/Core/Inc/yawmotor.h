@@ -13,7 +13,7 @@
 class yawmotor{
 
 public:
-	yawmotor(TIM_HandleTypeDef *htim, uint32_t fwd_channel, uint32_t rev_forward);
+	yawmotor(TIM_HandleTypeDef* htim, uint32_t fwd_channel, uint32_t rev_forward);
 	void init();
 	void Motor_Enable();
 	void Motor_Disable();
@@ -32,13 +32,6 @@ private:
 	int8_t duty_cycle_ = 0;
 	int8_t enabled_ = 0;
 
-
 };
-
-
-
-};
-
-
 
 #endif /* INC_YAWMOTOR_H_ */

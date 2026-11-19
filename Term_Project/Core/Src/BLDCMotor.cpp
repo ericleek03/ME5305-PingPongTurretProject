@@ -7,10 +7,10 @@
 
 #include "BLDCMotor.h"
 
-BLDCMotor::BLDCMotor(TIM_HandleTypeDef* htim, uint32_t channel, uint16_t minPulse, uint16_t maxPulse);
+BLDCMotor::BLDCMotor(TIM_HandleTypeDef* htim, uint32_t channel_, uint16_t minPulse_, uint16_t maxPulse_);
 
 void BLDCMotor::start(){
-	HAL_TIM_PWM_START(_htim, channel);
+	HAL_TIM_PWM_Start(_htim, channel);
 	stop();
 }
 
@@ -29,7 +29,7 @@ void BLDCMotor::setPulseWidth(uint16_t pulseUs){
 }
 
 
-void BLDC::setThrottle(uint8_t percent){
+void BLDCMotor::setThrottle(uint8_t percent){
 
 	if (percent > 100) {percent = 100;}
 

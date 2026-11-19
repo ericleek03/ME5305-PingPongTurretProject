@@ -26,7 +26,7 @@ private:
 	uint32_t _channel;
 
 	uint16_t _minPulse;
-	uin16_t _maxPulse;
+	uint16_t _maxPulse;
 
 };
 

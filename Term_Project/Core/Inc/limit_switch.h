@@ -1,29 +1,26 @@
+
+#ifndef INC_LIMITSWITCH_H_
+#define INC_LIMITSWITCH_H_
+
+#include "stm32f4xx_hal.h"
+
 class LimitSwitch{
 public:
-	LimitSwitch(GPIO_TypeDef *port, uint16_t pin, uint8_t activeMode = 0, uint8_t pudMode = 0, bool interruptMode = false);
+	LimitSwitch(GPIO_TypeDef *port, uint16_t pin, bool active_low = true);
+	void init();
+	void clean();
+	void read()
 
-
-	bool init(void);
-
-	void clean(void);
-
-	void read(void);
-
-	bool get(void) {return _state;};
-
-	void EXTI_Callback(void);
-
+	bool get() const {return state_;}
+	bool latched() const {return latched_;}
 
 private:
-	bool _initState;
-	volatile bool _state;
 
-	GPIO_TypeDef *_GPIO_PORT;
-
-	uint16_t _GPIO_PIN;
-	uint8_t _ACTIVE_MODE;
-
-	bool _interruptMode;
-
-	bool _RCC_GPIO_CLK_ENABLE(GPIO_TypeDef *GPIO_PORT);
+	GPIO_TypeDef *port_;
+	uint16_t pin_;
+	bool active_low_;
+	bool state_ =false;
+	bool latched_ = false;
 };
+
+#endif

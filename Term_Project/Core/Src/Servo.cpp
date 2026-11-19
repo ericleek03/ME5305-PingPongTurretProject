@@ -6,7 +6,7 @@
  */
 #include "Servo.h"
 
-Servo::Servo(TIM_HandleTypeDef* htim, uint16_t channel, uint16_t minAngle, uint16_t maxAngle) : htim_ (htim), channel_(channel) {}
+Servo::Servo(TIM_HandleTypeDef* htim, uint16_t channel, uint16_t minAngle, uint16_t maxAngle) : htim_ (htim), channel_(channel), minAngle_(minAngle), maxAngle_(maxAngle) {}
 
 
 void Servo::start(){
@@ -28,6 +28,6 @@ void Servo::write(uint16_t angle){
 }
 
 uint16_t Servo::getAngle() const{
-	return _currentAngle;
+	return currentAngle_;
 }
 
